@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: CreditApplicationService
+
+  cloud:
+    function:
+      definition: creditRiskEvaluated
+
+    stream:
+      bindings:
+        creditApplicationCreated-out-0:
+          destination: creditApplicationCreated
+        creditRiskEvaluated-in-0:
+          destination: creditRiskEvaluated
+          group: credit-application-updater
+
+      default:
+        contentType: application/json
+
+      kafka:
+        binder:
+          brokers: localhost:9092
+
+server:
+  port: 9091

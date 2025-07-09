@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: ReportingService
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: user-name
+    password: strong-password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  cloud:
+    function:
+      definition: creditApplicationCreated;creditRiskEvaluated
+    stream:
+      bindings:
+        creditApplicationCreated-in-0:
+          destination: creditApplicationCreated
+          group: reporting
+        creditRiskEvaluated-in-0:
+          destination: creditRiskEvaluated
+          group: reporting
+      default:
+        contentType: application/json
+      kafka:
+        binder:
+          brokers: localhost:9092
+
+server:
+  port: 8083

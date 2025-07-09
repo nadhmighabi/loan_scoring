@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: NotificationService
+
+  cloud:
+    function:
+      definition: creditRiskEvaluated
+
+    stream:
+      bindings:
+        creditRiskEvaluated-in-0:
+          destination: creditRiskEvaluated
+          group: notification-service
+
+      default:
+        contentType: application/json
+
+      kafka:
+        binder:
+          brokers: localhost:9092
+
+server:
+  port: 8083
